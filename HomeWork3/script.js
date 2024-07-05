@@ -1,90 +1,94 @@
-// 1) Дан массив const arr = [1, 5, 7, 9] с помощью Math.min и spread оператора,
-// найти минимальное число в массиве, решение задание должно состоять из одной
-// строки кода.
+// Задание 1: "Управление персоналом компании"
 
-const arr = [10, 5, 7, 9];
+// Реализуйте класс Employee (сотрудник), который имеет следующие свойства и методы:
+// Свойство name (имя) - строка, имя сотрудника.
+// Метод displayInfo() - выводит информацию о сотруднике (имя) в консоль.
 
-console.log(Math.min(...arr));
+// Реализуйте класс Manager (менеджер), который наследует класс Employee и имеет дополнительное свойство и метод:
+// Свойство department (отдел) - строка, отдел, в котором работает менеджер.
+// Метод displayInfo() - переопределяет метод displayInfo() родительского класса и выводит информацию о менеджере (имя и отдел).
 
-
-
-// 2) Напишите функцию createCounter, которая создает счетчик и возвращает объект
-// с двумя методами: increment и decrement. Метод increment должен увеличивать
-// значение счетчика на 1, а метод decrement должен уменьшать значение счетчика
-// на 1. Значение счетчика должно быть доступно только через методы объекта,
-// а не напрямую.
-
-function counter() {
-  let value = 0;
-  function add() {
-    value ++;
+class Employee {
+  constructor(name) {
+    this.name = name;
   }
-  function subtract() {
-    value --;
+  displayInfo(){
+    console.log(`Name: ${this.name}`);
   }
-  function getCounter() {
-    return value;
-  }
-  return { add, subtract, getCounter };
 }
 
-const userCount = counter();
-console.log(userCount.getCounter());
-userCount.add();
-console.log(userCount.getCounter());
-userCount.add();
-console.log(userCount.getCounter());
-userCount.subtract();
-console.log(userCount.getCounter());
-
-
-// 3) Дополнительное задание, выполняем только если проходили работу с DOM.
-// Напишите рекурсивную функцию findElementByClass, которая принимает корневой
-// элемент дерева DOM и название класса в качестве аргументов и возвращает первый
-// найденный элемент с указанным классом в этом дереве.
-
-// Пример
-// const rootElement = document.getElementById('root');
-// const targetElement = findElementByClass(rootElement, 'my-class');
-// console.log(targetElement);
-
-
-// const serchElement = [];
-// function findElementByClass(rootEl, classEl) {
-//   if (rootEl.hasChildNodes()) {
-//     for (let element of rootEl.children) {
-//       if (rootEl.classList.contains(classEl)) {
-//         serchElement.push(element);
-//         if (serchElement[0].className !== classEl) {
-//           serchElement.unshift(element);
-//         }
-//       }
-//       findElementByClass(element, classEl);
-//     }
-//   }
-//   return serchElement[0];
-// }
-
-function findElementByClass(rootEl, classEl) {
-  if (rootEl.classList.contains(classEl)) {
-    return rootEl;
+class Manager extends Employee {
+  constructor(name, department) {
+    super(name);
+    this.department = department;
   }
-  for (const child of rootEl.children) {
-    const findedElem = findElementByClass(child, classEl);
-    if (findedElem) {
-      return findedElem;
+  displayInfo(){
+    console.log(`Name: ${this.name}, Department: ${this.department}`);
+  }
+}
+
+
+// // Пример использования классов
+const employee = new Employee("John Smith");
+employee.displayInfo(); // "Name: John Smith"
+
+const manager = new Manager("Jane Doe", "Sales");
+manager.displayInfo(); // "Name: John Doe, Department: Sales"
+
+
+// Задание 2: "Управление списком заказов"
+
+// Реализуйте класс Product (товар), который имеет следующие свойства и методы:
+// Свойство name - название товара.
+// Свойство price - цена товара.
+// Свойство quantity - количество товара.
+
+// Реализуйте класс Order (заказ), который имеет следующие свойства и методы:
+// Свойство id (номер заказа) - число, уникальный номер заказа.
+// Свойство products (продукты) - массив, содержащий список продуктов в заказе.
+// Метод addProduct(product) - принимает объект класса Product и добавляет его в список продуктов заказа.
+// Метод getTotalPrice() - возвращает общую стоимость заказа, основанную на ценах продуктов.
+
+class Product {
+  constructor(name, price, quantity) {
+    this.name = name;
+    this.price = price;
+    this.quantity = quantity;
+  }
+}
+
+class Order {
+  constructor(id) {
+    this.id = id;
+    this.products = [];
+    this.totalPrise = 0;
+  }
+
+  addProduct(product) {
+    this.products.push(product);
+  }
+
+  getTotalPrice() {
+    for (let value in this.products) {
+      this.totalPrise += this.products[value].price * this.products[value].quantity;
     }
+    return this.totalPrise;
   }
-  return null;
 }
 
-const rootElement = document.getElementById('root');
-console.log(rootElement);
-const targetElement = findElementByClass(rootElement, 'paragraph3');
-console.log(targetElement);
-const targetElement1 = findElementByClass(rootElement, 'link2');
-console.log(targetElement1);
-const targetElement2 = findElementByClass(rootElement, 'class4');
-console.log(targetElement2);
+// // Пример использования:
+const order = new Order(12345);
+
+const product1 = new Product("Phone", 500, 2);
+order.addProduct(product1);
+
+const product2 = new Product("Headphones", 100, 1);
+order.addProduct(product2);
+
+console.log(order.getTotalPrice()); // Вывод: 1100
 
 
+// Для подготовки к следующему семинару советую почитать:
+// https://learn.javascript.ru/error-handling
+// https://learn.javascript.ru/async
+// https://learn.javascript.ru/network
